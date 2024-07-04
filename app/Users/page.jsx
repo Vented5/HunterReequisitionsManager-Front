@@ -2,6 +2,10 @@
 import React, { useState } from 'react';
 import { AiOutlineEdit, AiOutlineDelete, AiOutlinePlus } from 'react-icons/ai';
 
+import NavBar from '../../components/NavBar';
+import SideBar from '../../components/SideBar';
+
+
 const Users = () => {
   const [users, setUsers] = useState([
     { id: 1, name: 'John Doe', role: 'Purchase Requester' },
@@ -32,7 +36,11 @@ const Users = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+   <>
+    <NavBar/>
+    <div className='flex'>
+      <SideBar/>
+      <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">User Management</h1>
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-2">Current Users</h2>
@@ -125,6 +133,9 @@ const Users = () => {
         </div>
       </div>
     </div>
+      
+    </div>
+   </>
   );
 };
 

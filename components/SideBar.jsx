@@ -22,7 +22,7 @@ function SideBar() {
         >
           <ul>
             <li className=" hover:bg-blue-200 hover:text-blue-800-rounded-px5 ">
-              <Link href="/Requisitions" className="flex justify-start items-center p-2">
+              <Link href="/Inbox" className="flex justify-start items-center p-2">
                     <MdRequestQuote className="mr-2" />Requisitions
                 </Link>
             </li>
@@ -34,13 +34,13 @@ function SideBar() {
             </li>
 
             <li className="items-center hover:bg-blue-200 hover:text-blue-800-rounded-px5 ">
-              <Link href="/" className="flex justify-start p-2">
+              <Link href="/URequest" className="flex justify-start p-2">
                     <MdOutlineUpdate className="mr-2" />Update Request
                 </Link>
             </li>
 
             <li className="hover:bg-blue-200 hover:text-blue-800-rounded-px2 ">
-              <Link href="/" className="flex justify-start p-2">
+              <Link href="/Validation" className="flex justify-start p-2">
                     <GrValidate className="mr-2" />Request Validation
                 </Link>
             </li>
@@ -64,8 +64,32 @@ function SideBar() {
             </li>
 
             <li className="hover:bg-blue-200 hover:text-blue-800-rounded-px5 ">
-              <Link href="/" className="flex justify-start items-center p-2">
+              <Link href="/Admin" className="flex justify-start items-center p-2">
                 <BsDatabaseFillLock className="mr-2" />DB
+              </Link>
+            </li>
+
+            <li className="hover:bg-blue-200 hover:text-blue-800-rounded-px5 ">
+              <Link href="/Category" className="flex justify-start items-center p-2">
+                <BsDatabaseFillLock className="mr-2" />Category
+              </Link>
+            </li>
+
+            <li className="hover:bg-blue-200 hover:text-blue-800-rounded-px5 ">
+              <Link href="/Suppliers" className="flex justify-start items-center p-2">
+                <BsDatabaseFillLock className="mr-2" />Suppliers
+              </Link>
+            </li>
+
+            <li className="hover:bg-blue-200 hover:text-blue-800-rounded-px5 ">
+              <Link href="/RequestsG" className="flex justify-start items-center p-2">
+                <MdOutlineUpdate className="mr-2" />Admin Requests
+              </Link>
+            </li>
+
+            <li className="hover:bg-blue-200 hover:text-blue-800-rounded-px5 ">
+              <Link href="/Advisor" className="flex justify-start items-center p-2">
+                <MdOutlineUpdate className="mr-2" />Advice
               </Link>
             </li>
           </ul>

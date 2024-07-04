@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineCalendar } from 'react-icons/ai';
 
+import NavBar from '../../components/NavBar';
+import SideBar from '../../components/SideBar';
+
 const Budget = () => {
   const [currentBudget, setCurrentBudget] = useState('');
   const [previousBudget, setPreviousBudget] = useState('');
@@ -27,15 +30,19 @@ const Budget = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <>
+    <NavBar/>
+    <div className='flex'>
+      <SideBar/>
+      <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Monthly Budget</h1>
       <div className="mb-4">
-        <h2 className="text-xl font-semibold">Previous Month&aposs Budget</h2>
+        <h2 className="text-xl font-semibold">Previous Month's Budget</h2>
         <p className="text-lg">{previousBudget}</p>
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block mb-2">Current Month&aposs Budget</label>
+          <label className="block mb-2">Current Month's Budget</label>
           <input
             type="text"
             name="currentBudget"
@@ -53,6 +60,8 @@ const Budget = () => {
         </button>
       </form>
     </div>
+    </div>
+    </>
   );
 };
 
