@@ -20,7 +20,6 @@ const AdminRequests = () => {
   useEffect(() => {
     console.log(Cookies.get('auth_token'))
     if(!Cookies.get('auth_token')){
-    //if(!document.cookie.startsWith('auth_token')){
       router.push('/Login')
     }
     // Simulate fetching requests from a database

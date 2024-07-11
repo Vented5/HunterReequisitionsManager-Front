@@ -2,11 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineEdit, AiOutlineSave } from 'react-icons/ai';
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
+
 
 import NavBar from '../../components/NavBar';
 import SideBar from '../../components/SideBar';
 
 const Account = () => {
+  const router = useRouter()
+
   const [userDetails, setUserDetails] = useState({
     firstName: '',
     lastName: '',
@@ -21,6 +26,9 @@ const Account = () => {
   const [newImage, setNewImage] = useState(null);
 
   useEffect(() => {
+    if(!Cookies.get('auth_token')){
+      router.push('/Login')
+    }  
     // Simulate fetching user details from an API
     const fetchUserDetails = async () => {
       // Replace with actual API call

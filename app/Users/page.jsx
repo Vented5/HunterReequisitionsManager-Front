@@ -1,20 +1,38 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineEdit, AiOutlineDelete, AiOutlinePlus } from 'react-icons/ai';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 import NavBar from '../../components/NavBar';
 import SideBar from '../../components/SideBar';
 
 
 const Users = () => {
-  const [users, setUsers] = useState([
-    { id: 1, name: 'John Doe', role: 'Purchase Requester' },
-    { id: 2, name: 'Jane Smith', role: 'Purchase Validator' },
-    { id: 3, name: 'Mike Johnson', role: 'Admin' },
-    { id: 4, name: 'Emily Davis', role: 'Business Owner' },
-  ]);
+  const router = useRouter()
+  
+  async function getUsers() {
+    fetch('http://localhost:3010/users',{ method: 'GET'})
+    .then(response => response.json())
+    .then(data => {
+      console.log(data[0])
+      setUsers(data)
+    })
+    
+  } 
+  const [users, setUsers] = useState([]);
+  //const [users, setUsers] = useState();
+  
   const [newUser, setNewUser] = useState({ name: '', role: 'Purchase Requester' });
   const [editingUser, setEditingUser] = useState(null);
+  
+  useEffect( () => {
+    if(!Cookies.get('auth_token')){
+      router.push('/Login')
+    }  
+    getUsers();
+  }, [])
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;

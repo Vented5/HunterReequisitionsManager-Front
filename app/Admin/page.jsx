@@ -1,11 +1,15 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import { AiOutlineEdit, AiOutlineDelete, AiOutlinePlus } from 'react-icons/ai';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 import NavBar from '../../components/NavBar';
 import SideBar from '../../components/SideBar';
 
 const AdminPage = () => {
+  const router = useRouter()
+
   const [items, setItems] = useState([]);
   const [formData, setFormData] = useState({
     id: '',
@@ -15,6 +19,9 @@ const AdminPage = () => {
   const [editing, setEditing] = useState(false);
 
   useEffect(() => {
+    if(!Cookies.get('auth_token')){
+      router.push('/Login')
+    }  
     // Fetch initial data from the "database"
     fetchItems();
   }, []);
