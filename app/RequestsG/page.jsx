@@ -3,8 +3,13 @@ import React, { useState, useEffect } from 'react';
 
 import NavBar from '../../components/NavBar';
 import SideBar from '../../components/SideBar';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
+
 
 const AdminRequests = () => {
+  const router = useRouter()
+  
   const [requests, setRequests] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -13,6 +18,11 @@ const AdminRequests = () => {
   const [denyReason, setDenyReason] = useState('');
 
   useEffect(() => {
+    console.log(Cookies.get('auth_token'))
+    if(!Cookies.get('auth_token')){
+    //if(!document.cookie.startsWith('auth_token')){
+      router.push('/Login')
+    }
     // Simulate fetching requests from a database
     const fetchRequests = async () => {
       const requestsFromApi = await new Promise((resolve) =>

@@ -2,7 +2,6 @@
 import { Context } from "../context/Context"
 import { useContext, useState} from "react"
 import Link from "next/link"
-import Cookies from "js-cookie"
 import { useRouter } from 'next/navigation'; 
 
 
@@ -15,10 +14,9 @@ function NavBar() {
     const [dropdown, setDropdown] = useState(false)
     const router = useRouter()
 
-    const logout = async () => {
+    const logout = async () => { ///NO TOCAR ==== SE DESMADRA
         setAuth(null)
-        Cookies.remove('auth_token', { path: '/', domain: 'localhost'}) 
-        const response = await fetch('http://localhost:3010/auth/logout', {
+        const response = await fetch('http://localhost:3010/auth/logout', {  
           method: 'POST',
           credentials: 'include',
           headers: {
@@ -33,7 +31,8 @@ function NavBar() {
           console.error('Error al intentar eliminar la cookie desde el backend');
           // Manejar el error de manera adecuada según tu aplicación
         }
-        document.cookie = 'auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+        ///NO TOCAR ==== SE DESMADRA
+        document.cookie = 'auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC;'; 
         console.log("Logout clicked")
       };
     

@@ -1,18 +1,24 @@
 "use client"
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'; 
 import { Context } from '../../context/Context';
-
+import Cookies from 'js-cookie'
 
 const LoginPage = () => {
   const [toggle, setToggle, auth, setAuth] = useContext(Context)
-
-  const [user, setUser] = useState('')
+  const [email, setEmail] = useState('')
   const [pwd, setPwd] = useState('')
-
   const router = useRouter()
 
+  useEffect(() => {
+    console.log(document.cookie.startsWith('auth_token'))
+    if(Cookies.get('auth_token')){
+      router.push('RequestsG')
+    }
+  }, [])
+  
+  
   const login = async (e) => {
       e.preventDefault()
       
@@ -20,12 +26,12 @@ const LoginPage = () => {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify({ user, pwd }),
+        body: JSON.stringify({ email, pwd }),
       });
 
       if(res.status === 200) {
         console.log('Ahueso tenemos login')
-        setAuth('Alice')
+        setAuth(email)
         router.push('/RequestsG')
       }else {
         console.log("Algo salio mal")
@@ -45,10 +51,10 @@ const LoginPage = () => {
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="user">Usuario</label>
             <input
-              //type="email"
-              id="user"
-              value={user}
-              onChange={(e) => setUser(e.target.value)}
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
               className="w-full p-2 border border-gray-300 rounded"
             />
