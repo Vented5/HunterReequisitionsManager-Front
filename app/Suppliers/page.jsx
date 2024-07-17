@@ -4,6 +4,7 @@ import { AiOutlineUpload, AiOutlineEdit, AiOutlineCheck, AiOutlineDelete } from 
 
 import NavBar from '../../components/NavBar';
 import SideBar from '../../components/SideBar';
+import Authentication from '../../components/Authentication';
 
 const SupplierManagement = () => {
   const [suppliers, setSuppliers] = useState([]);
@@ -86,6 +87,7 @@ const SupplierManagement = () => {
 
   return (
   <>
+  <Authentication>
   <NavBar/>
   <div className='flex'>
     <SideBar/>
@@ -187,6 +189,7 @@ const SupplierManagement = () => {
       </div>
     </div>
   </div>
+  </Authentication>
   </> 
   );
 };

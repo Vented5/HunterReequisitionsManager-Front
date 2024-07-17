@@ -4,6 +4,7 @@ import { AiFillCheckCircle } from 'react-icons/ai';
 
 import NavBar from '../../components/NavBar';
 import SideBar from '../../components/SideBar';
+import Authentication from '../../components/Authentication';
 
 const RequestProgress = () => {
   const stages = [
@@ -77,6 +78,7 @@ const RequestProgress = () => {
 
   return (
     <>
+    <Authentication>
     <NavBar/>
     <div className='flex'>
       <SideBar/>
@@ -162,6 +164,7 @@ const RequestProgress = () => {
       </div>
     </div>
     </div>
+    </Authentication>
     </>
   );
 };

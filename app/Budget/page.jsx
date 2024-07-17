@@ -4,6 +4,7 @@ import { AiOutlineCalendar } from 'react-icons/ai';
 
 import NavBar from '../../components/NavBar';
 import SideBar from '../../components/SideBar';
+import Authentication from '../../components/Authentication';
 
 const Budget = () => {
   const [currentBudget, setCurrentBudget] = useState('');
@@ -31,6 +32,7 @@ const Budget = () => {
 
   return (
     <>
+    <Authentication>
     <NavBar/>
     <div className='flex'>
       <SideBar/>
@@ -61,6 +63,7 @@ const Budget = () => {
       </form>
     </div>
     </div>
+    </Authentication>
     </>
   );
 };

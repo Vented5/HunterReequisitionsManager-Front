@@ -6,9 +6,10 @@ import Cookies from 'js-cookie';
 
 import NavBar from '../../components/NavBar';
 import SideBar from '../../components/SideBar';
+import Authentication from '../../components/Authentication';
 
 
-const Users = () => {
+const Users = ( ) => {
   const router = useRouter()
   
   async function getUsers() {
@@ -27,9 +28,9 @@ const Users = () => {
   const [editingUser, setEditingUser] = useState(null);
   
   useEffect( () => {
-    if(!Cookies.get('auth_token')){
+    /*if(!Cookies.get('auth_token')){
       router.push('/Login')
-    }  
+    } */ 
     getUsers();
   }, [])
 
@@ -55,6 +56,7 @@ const Users = () => {
 
   return (
    <>
+   <Authentication>
     <NavBar/>
     <div className='flex'>
       <SideBar/>
@@ -153,6 +155,7 @@ const Users = () => {
     </div>
       
     </div>
+    </Authentication>
    </>
   );
 };

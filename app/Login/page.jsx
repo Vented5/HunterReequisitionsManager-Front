@@ -6,36 +6,46 @@ import { Context } from '../../context/Context';
 import Cookies from 'js-cookie'
 
 const LoginPage = () => {
-  const [toggle, setToggle, auth, setAuth] = useContext(Context)
+  const {user, setUser} = useContext(Context)
   const [email, setEmail] = useState('')
   const [pwd, setPwd] = useState('')
   const router = useRouter()
 
-  useEffect(() => {
-    console.log(document.cookie.startsWith('auth_token'))
-    if(Cookies.get('auth_token')){
-      router.push('RequestsG')
-    }
-  }, [])
-  
-  
   const login = async (e) => {
       e.preventDefault()
       
-      const res = await fetch('http://localhost:3010/auth', {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify({ email, pwd }),
-      });
+      try {
+        const res = await fetch('http://localhost:3010/auth', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json'},
+          body: JSON.stringify({ email, pwd }),
+        });
 
-      if(res.status === 200) {
-        console.log('Ahueso tenemos login')
-        setAuth(email)
-        router.push('/RequestsG')
-      }else {
-        console.log("Algo salio mal")
-        console.log(res.json().message)
+        if(res.status === 200) {
+          console.log('Ahueso tenemos login')
+          const data = await res.json()
+          console.log("res: ", data.user, "token: ", data.token)
+          
+          setUser({
+            name: data.user.name,
+            accessLvl: data.user.accessLvl,
+            token: data.token,
+          })
+          console.log("user: ", user)
+          
+          localStorage.setItem('token', data.token)
+
+          router.push('/RequestsG')
+
+        } else {
+          console.log("algo salio mal")
+          const errorData = await res.json()
+          console.log("Error: ", errorData)
+        }
+
+      } catch (error){
+        console.log('Error de la solicitud', error)
       }
   }
  

@@ -10,9 +10,15 @@ import { GrInProgress } from "react-icons/gr";
 import { FaRegMoneyBillAlt, FaAngleRight, FaUsers } from "react-icons/fa";
 import { PiGitPullRequestDuotone } from "react-icons/pi";
 import { BsDatabaseFillLock } from "react-icons/bs";
+import { useRouter } from "next/navigation";
+
 
 function SideBar() {
-    const [toggle, setToggle] = useContext(Context)
+    const {toggle, setToggle} = useContext(Context)
+    const router = useRouter()
+    function handleButton() {
+      router.push('/Users')
+    }
     return (
         <div className="flex justify-start itmes-start">
         <aside
@@ -22,9 +28,10 @@ function SideBar() {
         >
           <ul>
             <li className=" hover:bg-blue-200 hover:text-blue-800-rounded-px5 ">
-              <Link href="/Inbox" className="flex justify-start items-center p-2">
+              <Link href="/RequestsG" className="flex justify-start items-center p-2">
                     <MdRequestQuote className="mr-2" />Requisitions
                 </Link>
+                
             </li>
 
             <li className=" hover:bg-blue-200 hover:text-blue-800-rounded-px5 ">

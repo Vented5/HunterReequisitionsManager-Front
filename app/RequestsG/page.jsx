@@ -1,15 +1,13 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-
+import Authentication from '../../components/Authentication';
 import NavBar from '../../components/NavBar';
 import SideBar from '../../components/SideBar';
-import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 
 
 const AdminRequests = () => {
-  const router = useRouter()
-  
+ 
   const [requests, setRequests] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -18,11 +16,6 @@ const AdminRequests = () => {
   const [denyReason, setDenyReason] = useState('');
 
   useEffect(() => {
-    console.log(Cookies.get('auth_token'))
-    if(!Cookies.get('auth_token')){
-      router.push('/Login')
-    }
-    // Simulate fetching requests from a database
     const fetchRequests = async () => {
       const requestsFromApi = await new Promise((resolve) =>
         setTimeout(() => resolve([
@@ -84,6 +77,7 @@ const AdminRequests = () => {
 
   return (
     <>
+    <Authentication>
     <NavBar/>
     <div className='flex'>
       <SideBar/>
@@ -168,6 +162,7 @@ const AdminRequests = () => {
       )}
     </div>
     </div>
+    </Authentication>
     </>
   );
 };

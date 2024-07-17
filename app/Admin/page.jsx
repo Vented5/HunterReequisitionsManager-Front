@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 
 import NavBar from '../../components/NavBar';
 import SideBar from '../../components/SideBar';
+import Authentication from '../../components/Authentication';
 
 const AdminPage = () => {
   const router = useRouter()
@@ -19,9 +20,6 @@ const AdminPage = () => {
   const [editing, setEditing] = useState(false);
 
   useEffect(() => {
-    if(!Cookies.get('auth_token')){
-      router.push('/Login')
-    }  
     // Fetch initial data from the "database"
     fetchItems();
   }, []);
@@ -74,6 +72,7 @@ const AdminPage = () => {
 
   return (
     <>
+    <Authentication>
     <NavBar/>
     <div className='flex'>
       <SideBar/>
@@ -148,6 +147,7 @@ const AdminPage = () => {
       </div>
     </div>
     </div>
+    </Authentication>
     </>
   );
 };

@@ -4,6 +4,7 @@ import { AiOutlineSave } from "react-icons/ai";
 
 import NavBar from "../../components/NavBar";
 import SideBar from "../../components/SideBar";
+import Authentication from "../../components/Authentication";
 
 const MakeRequest = () => {
   const [formData, setFormData] = useState({
@@ -136,6 +137,7 @@ const MakeRequest = () => {
 
   return (
     <>
+    <Authentication>
     <NavBar/>
     <div className="flex">
       <SideBar/>
@@ -341,6 +343,7 @@ const MakeRequest = () => {
       </div>
     </div>
     </div>
+    </Authentication>
     </>
   );
 };

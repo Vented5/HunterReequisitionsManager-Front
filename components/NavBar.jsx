@@ -1,6 +1,6 @@
 'use client'
 import { Context } from "../context/Context"
-import { useContext, useState} from "react"
+import { useContext, useEffect, useState} from "react"
 import Link from "next/link"
 import { useRouter } from 'next/navigation'; 
 
@@ -10,12 +10,14 @@ import { FaBars, FaUserAstronaut } from "react-icons/fa"
 import { IoIosLogOut } from "react-icons/io"
 
 function NavBar() {
-    const [toggle, setToggle, auth, setAuth] = useContext(Context)
+    const {user, setUser, toggle, setToggle} = useContext(Context)
     const [dropdown, setDropdown] = useState(false)
     const router = useRouter()
 
+ 
     const logout = async () => { ///NO TOCAR ==== SE DESMADRA
-        setAuth(null)
+        setUser(null)
+        localStorage.removeItem('token')
         const response = await fetch('http://localhost:3010/auth/logout', {  
           method: 'POST',
           credentials: 'include',
@@ -44,7 +46,7 @@ function NavBar() {
             </button>
             {toggle ? 'open' : 'closed'}
             <h1>Hunter Requisitions Manager</h1>
-            { auth ? auth : 'Not auth' }
+            { user ? user.name : 'Not user' }
             <div className="relative">
         <div onClick={() => setDropdown(!dropdown)} className="cursor-pointer">
           <FaUserAstronaut />

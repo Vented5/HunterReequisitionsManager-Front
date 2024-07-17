@@ -4,6 +4,7 @@ import { AiOutlineEdit, AiOutlineCheck, AiOutlineSync } from 'react-icons/ai';
 
 import NavBar from '../../components/NavBar';
 import SideBar from '../../components/SideBar';
+import Authentication from '../../components/Authentication';
 
 const RequestsInbox = () => {
   const [requests, setRequests] = useState([]);
@@ -70,6 +71,7 @@ const RequestsInbox = () => {
 
   return (
     <>
+    <Authentication>
     <NavBar/>
     <div className='flex'>
       <SideBar/>
@@ -214,6 +216,7 @@ const RequestsInbox = () => {
       )}
     </div>
     </div>
+    </Authentication>
     </>
   );
 };

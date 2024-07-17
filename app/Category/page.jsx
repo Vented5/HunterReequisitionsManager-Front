@@ -4,6 +4,7 @@ import { AiOutlineUpload, AiOutlineEdit, AiOutlineCheck, AiOutlineDelete } from 
 
 import NavBar from '../../components/NavBar';
 import SideBar from '../../components/SideBar';
+import Authentication from '../../components/Authentication';
 
 const CategoryManagement = () => {
   const [categories, setCategories] = useState([]);
@@ -59,6 +60,7 @@ const CategoryManagement = () => {
 
   return (
    <>
+   <Authentication>
    <NavBar/>
    <div className='flex'>
     <SideBar/>
@@ -130,6 +132,7 @@ const CategoryManagement = () => {
       </div>
     </div>
    </div>
+   </Authentication>
    </>
   );
 };
