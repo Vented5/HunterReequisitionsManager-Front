@@ -18,13 +18,15 @@ const RequestsInbox = () => {
     fetchRequests();
   }, []);
 
-  const fetchRequests = () => {
-    // Mock fetch function
-    const mockRequests = [
-      { id: 1, status: 'Needs Update', requestorName: 'John Doe', department: 'IT', requestDate: '2023-01-01', dueDate: '2023-01-15', productDescription: 'Laptop, 15 inch, Black', justification: 'Replacement for old laptop', preferredVendors: 'Vendor A', category: 'Electronics' },
-      { id: 2, status: 'Canceled', requestorName: 'Jane Smith', department: 'HR', requestDate: '2023-02-01', dueDate: '2023-02-10', productDescription: 'Office Chairs, Ergonomic, Blue', justification: 'New chairs for office', preferredVendors: 'Vendor B', category: 'Furniture' },
-    ];
-    setRequests(mockRequests);
+  const fetchRequests = async () => {
+    const response = await fetch('http://localhost:3010/requisitions/validate', {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json'}
+    })
+    const data = await response.json()
+
+    setRequests(data);
   };
 
   const handleOpenRequest = (request) => {
@@ -72,20 +74,20 @@ const RequestsInbox = () => {
             <div key={request.id} className="border p-2 rounded cursor-pointer bg-white" onClick={() => handleOpenRequest(request)}>
               <div className="grid grid-cols-5 gap-4">
                 <div>
-                  <p className="font-semibold">{request.requestorName}</p>
+                  <p className="font-semibold">{request.requisitor.name}</p>
                   <p>{request.status}</p>
                 </div>
                 <div>
-                  <p>Request Date: {request.requestDate}</p>
+                  <p>Request Date: {request.createdAt}</p>
                 </div>
                 <div>
                   <p>Due Date: {request.dueDate}</p>
                 </div>
                 <div>
-                  <p>Department: {request.department}</p>
+                  <p>Department: {request.department.name}</p>
                 </div>
                 <div>
-                  <p>Category: {request.category}</p>
+                  <p>Category: {request.category.name}</p>
                 </div>
               </div>
             </div>
@@ -102,7 +104,7 @@ const RequestsInbox = () => {
               <input
                 type="text"
                 name="requestorName"
-                value={selectedRequest.requestorName}
+                value={selectedRequest.requisitor.name}
                 className="w-full p-2 border border-gray-300 rounded bg-gray-100"
                 readOnly
               />
@@ -112,7 +114,7 @@ const RequestsInbox = () => {
               <input
                 type="text"
                 name="department"
-                value={selectedRequest.department}
+                value={selectedRequest.department.name}
                 className="w-full p-2 border border-gray-300 rounded bg-gray-100"
                 readOnly
               />
@@ -122,7 +124,7 @@ const RequestsInbox = () => {
               <input
                 type="date"
                 name="requestDate"
-                value={selectedRequest.requestDate}
+                value={selectedRequest.createdAt}
                 className="w-full p-2 border border-gray-300 rounded bg-gray-100"
                 readOnly
               />
@@ -142,7 +144,7 @@ const RequestsInbox = () => {
               <input
                 type="text"
                 name="productDescription"
-                value={selectedRequest.productDescription}
+                value={selectedRequest.description}
                 className="w-full p-2 border border-gray-300 rounded bg-gray-100"
                 readOnly
               />
@@ -172,7 +174,7 @@ const RequestsInbox = () => {
               <input
                 type="text"
                 name="category"
-                value={selectedRequest.category}
+                value={selectedRequest.category.name}
                 className="w-full p-2 border border-gray-300 rounded bg-gray-100"
                 readOnly
               />

@@ -17,13 +17,16 @@ const AdminRequests = () => {
 
   useEffect(() => {
     const fetchRequests = async () => {
-      const requestsFromApi = await new Promise((resolve) =>
-        setTimeout(() => resolve([
-          { id: 1, requestorName: 'John Doe', department: 'IT', requestDate: '2023-06-15', dueDate: '2023-07-15', productDescription: 'New Laptops', justification: 'Upgrade', preferredVendors: 'Vendor 1', category: 'Electronics', provider: 'Provider 1', approver: 'Manager A', status: 'Approved', progressStage: 'Ordered' },
-          { id: 2, requestorName: 'Jane Smith', department: 'HR', requestDate: '2023-06-16', dueDate: '2023-07-16', productDescription: 'Office Chairs', justification: 'Replacement', preferredVendors: 'Vendor 2', category: 'Furniture', provider: 'Provider 2', approver: 'Manager B', status: 'Pending', progressStage: 'Validated' }
-        ]), 1000)
-      );
-      setRequests(requestsFromApi);
+      const response = await fetch('http://localhost:3010/requisitions', {
+          method: 'GET',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json'}
+      })
+      const data = await response.json()
+
+      //console.log(data)
+      
+      setRequests(data);
     };
 
     fetchRequests();
@@ -64,9 +67,9 @@ const AdminRequests = () => {
   };
 
   const filteredRequests = requests.filter((request) => 
-    request.requestorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    request.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    request.productDescription.toLowerCase().includes(searchTerm.toLowerCase())
+    request.requisitor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    request.department.name.toLowerCase().includes(searchTerm.toLowerCase()) //||
+    //request.productDescription.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const sortedRequests = filteredRequests.sort((a, b) => {
@@ -86,15 +89,15 @@ const AdminRequests = () => {
       {selectedRequest ? (
         <div className="max-w-lg mx-auto mt-8 p-4 border rounded shadow-lg">
           <h2 className="text-xl font-bold mb-4">Request Details</h2>
-          <p><strong>Requestor:</strong> {selectedRequest.requestorName}</p>
-          <p><strong>Department:</strong> {selectedRequest.department}</p>
-          <p><strong>Request Date:</strong> {selectedRequest.requestDate}</p>
+          <p><strong>Requestor:</strong> {selectedRequest.requisitor.name}</p>
+          <p><strong>Department:</strong> {selectedRequest.department.name}</p>
+          <p><strong>Request Date:</strong> {selectedRequest.createdAt}</p>
           <p><strong>Due Date:</strong> {selectedRequest.dueDate}</p>
-          <p><strong>Product Description:</strong> {selectedRequest.productDescription}</p>
+          <p><strong>Product Description:</strong> {selectedRequest.description}</p>
           <p><strong>Justification:</strong> {selectedRequest.justification}</p>
           <p><strong>Preferred Vendors:</strong> {selectedRequest.preferredVendors}</p>
-          <p><strong>Category:</strong> {selectedRequest.category}</p>
-          <p><strong>Provider:</strong> {selectedRequest.provider}</p>
+          <p><strong>Category:</strong> {selectedRequest.category.name}</p>
+          <p><strong>Provider:</strong> {selectedRequest.provider.name}</p>
           <p><strong>Approver:</strong> {selectedRequest.approver}</p>
           <p><strong>Status:</strong> {selectedRequest.status}</p>
           <p><strong>Progress Stage:</strong> {selectedRequest.progressStage}</p>
@@ -151,9 +154,9 @@ const AdminRequests = () => {
             <tbody>
               {sortedRequests.map((request) => (
                 <tr key={request.id} onClick={() => handleRequestClick(request)} className="cursor-pointer hover:bg-gray-100">
-                  <td className="border p-2">{request.requestorName}</td>
-                  <td className="border p-2">{request.requestDate}</td>
-                  <td className="border p-2">{request.progressStage}</td>
+                  <td className="border p-2">{request.requisitor.name}</td>
+                  <td className="border p-2">{request.createdAt}</td>
+                  <td className="border p-2">{request.status}</td>
                 </tr>
               ))}
             </tbody>

@@ -1,6 +1,5 @@
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 import { Context } from "../context/Context";
 
 const Authentication = ({children}) => {
@@ -9,7 +8,7 @@ const Authentication = ({children}) => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        console.log(token)
+        //console.log(token)
         if(!token) {
             router.push('Login')
         } else {
@@ -20,7 +19,7 @@ const Authentication = ({children}) => {
                     headers: { 'Content-Type': 'application/json'},
                 })
                 const data = await response.json()
-                console.log('Ahueso tenemos token nuevo', data.session)
+                //console.log('Ahueso tenemos token nuevo', data.session)
                 setUser(data.session)
             }  
             fetcher()
