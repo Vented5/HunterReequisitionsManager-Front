@@ -26,9 +26,6 @@ const Account = () => {
   const [newImage, setNewImage] = useState(null);
 
   useEffect(() => {
-    if(!Cookies.get('auth_token')){
-      router.push('/Login')
-    }  
     // Simulate fetching user details from an API
     const fetchUserDetails = async () => {
       // Replace with actual API call

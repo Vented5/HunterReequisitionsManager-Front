@@ -20,11 +20,9 @@ function SideBar() {
       router.push('/Users')
     }
     return (
-        <div className="flex justify-start itmes-start">
+        <div className={`flex justify-start itmes-start ${ toggle ? "w-60" : "hidden"}`}>
         <aside
-          className={`bg-white rounded-lg overflow-hideen transition-all  ${
-            toggle ? "w-60 p-4" : "w-0"
-          }lg:w-60 lg:p-4`}
+          className={`bg-white rounded-lg overflow-hideen transition-all p-4 lg:w-60 lg:p-4`}
         >
           <ul>
             <li className=" hover:bg-blue-200 hover:text-blue-800-rounded-px5 ">
