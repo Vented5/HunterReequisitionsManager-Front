@@ -1,6 +1,7 @@
 import { ReqContext } from "../app/RequestsG/page"
 import { Context } from "../context/Context";
 import { useState, useContext } from "react"
+import StepsProgressBar from './StepsProgressBar'
 
 
 export default function DetailedRequest() {
@@ -44,8 +45,9 @@ export default function DetailedRequest() {
     return (
         <>
         <h1 className="text-2xl font-bold mb-4">Requisition no. {selectedRequest.id} </h1>
-        <div className="max-w-lg mx-auto mt-8 p-4 border rounded shadow-lg">
-          <h2 className="text-xl font-bold mb-4">Request Details</h2>
+        <div className="mx-auto mt-8 p-4 border rounded shadow-lg">
+          <h2 className="text-xl font-bold mb-4 text-center">Status</h2>
+          <StepsProgressBar/>
           <p><strong>Requestor:</strong> {selectedRequest.requisitor.name}</p>
           <p><strong>Department:</strong> {selectedRequest.department.name}</p>
           <p><strong>Request Date:</strong> {selectedRequest.createdAt}</p>
@@ -55,10 +57,8 @@ export default function DetailedRequest() {
           <p><strong>Preferred Vendors:</strong> {selectedRequest.preferredVendors}</p>
           <p><strong>Category:</strong> {selectedRequest.category.name}</p>
           <p><strong>Provider:</strong> {selectedRequest.provider.name}</p>
-          <p><strong>Approver:</strong> {selectedRequest.approver}</p>
-          <p><strong>Status:</strong> {selectedRequest.status}</p>
-          <p><strong>Progress Stage:</strong> {selectedRequest.progressStage}</p>
-         
+          {selectedRequest.approver ? <p><strong>Approver:</strong> {selectedRequest.approver}</p> : ''}
+          
           {selectedRequest.status.toLowerCase() === 'denied' && (
             <p><strong>Deny Reason:</strong> {selectedRequest.denyReason}</p>
           )}
@@ -75,7 +75,7 @@ export default function DetailedRequest() {
                 </button>
                 </>
             )}
-            {selectedRequest.status.toLowerCase() !== 'validated' && user.role === 'Admin' && (
+            {selectedRequest.status.toLowerCase() === 'requested'  && user.role === 'Admin' && (
                 <button type="button" onClick={validateRequest} className="px-4 py-2 bg-green-500 text-white rounded">
                     Validate Request
                 </button>
