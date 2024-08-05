@@ -40,7 +40,7 @@ function NavBar() {
     
 
     return (
-        <div className="bg-white flex justify-between items-center px-4 h-12 mb-4 relative">
+        <div className="bg-white flex justify-between items-center px-4 h-[7%] mb-4 relative shadow-md">
             <div className="flex space-x-4">
               <button onClick={() => setToggle(!toggle)}>
                   <FaBars className="cursor-pointer" />

@@ -4,6 +4,7 @@ import Authentication from '../../components/Authentication';
 import NavBar from '../../components/NavBar';
 import SideBar from '../../components/SideBar';
 import DetailedRequest from '../../components/DetaliedRequest';
+import CreateRequestFrom from '../../components/CreateRequestForm';
 
 export const ReqContext = createContext()
 
@@ -15,6 +16,8 @@ const AdminRequests = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortKey, setSortKey] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
+
+  const [showForm, setShowForm] = useState(false);//Make request show control
   
 
   useEffect(() => {
@@ -37,15 +40,6 @@ const AdminRequests = () => {
     setSearchTerm(e.target.value);
   };
 
-  const handleSort = (key) => {
-    let order = 'asc';
-    if (sortKey === key && sortOrder === 'asc') {
-      order = 'desc';
-    }
-    setSortKey(key);
-    setSortOrder(order);
-  };
-
   const handleRequestClick = (request) => {
     setSelectedRequest(request);
   };
@@ -59,6 +53,17 @@ const AdminRequests = () => {
     //request.productDescription.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleSort = (key) => {
+    let order = 'asc';
+    if (sortKey === key && sortOrder === 'asc') {
+      order = 'desc';
+    }
+    setSortKey(key);
+    setSortOrder(order);
+  };
+
+  
+
   const sortedRequests = filteredRequests.sort((a, b) => {
     if (a[sortKey] < b[sortKey]) return sortOrder === 'asc' ? -1 : 1;
     if (a[sortKey] > b[sortKey]) return sortOrder === 'asc' ? 1 : -1;
@@ -70,58 +75,67 @@ const AdminRequests = () => {
     <Authentication>
     <NavBar/>
 
-    <div className='flex'>
+    <div className='flex h-[90%]'>
       <SideBar/>
       
-      <div className="container mx-auto p-4">
+      <section className="container mx-2 px-4 py-2 h-full shadow-lg">
 
-        {selectedRequest ? (
+        {selectedRequest ? (    /// Vista detallada
         
           <ReqContext.Provider value={{ selectedRequest, setSelectedRequest, requests, setRequests}}>
             <DetailedRequest/>
           </ReqContext.Provider>
         
-        ) : (
+        ) : ( 
+          showForm ? (        /// Creacion de request
 
-          <>
-          <h1 className="text-2xl font-bold mb-4">All Requisitions</h1>
-          <div className="mb-4">
-            <input
-              type="text"
-              placeholder="Search by requestor, department, or product description"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-          </div>
-          <table className="w-full border-collapse">
-            <thead>
-              <tr>
-                <th className="border p-2 cursor-pointer" onClick={() => handleSort('id')}>Id</th>
-                <th className="border p-2 cursor-pointer" onClick={() => handleSort('requestorName')}>Requestor</th>
-                <th className="border p-2 cursor-pointer" onClick={() => handleSort('progressStage')}>Department</th>
-                
-                <th className="border p-2 cursor-pointer" onClick={() => handleSort('requestDate')}>Request Date</th>
-                <th className="border p-2 cursor-pointer" onClick={() => handleSort('progressStage')}>Progress Stage</th>
-                
-              </tr>
-            </thead>
-            <tbody>
-              {sortedRequests.map((request) => (
-                <tr key={request.id} onClick={() => handleRequestClick(request)} className="cursor-pointer hover:bg-gray-100">
-                  <td className="border p-2">{request.id}</td>
-                  
-                  <td className="border p-2">{request.requisitor.name}</td>
-                  <td className="border p-2">{request.department.name}</td>
-                  <td className="border p-2">{request.createdAt}</td>
-                  <td className="border p-2">{request.status.charAt(0).toUpperCase() + request.status.slice(1)}</td>
+            <ReqContext.Provider value={{showForm, setShowForm, requests, setRequests}}>
+              <CreateRequestFrom/>
+            </ReqContext.Provider>
+
+          ) : (       /// Main
+            <>
+            <h1 className="text-2xl font-bold mb-4">All Requisitions</h1>
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Search by requestor, department, or product description"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+            </div>
+            <div className='max-h-96 overflow-auto'>
+            <table className="w-full border-collapse">
+              <thead>
+                <tr>
+                  <th className="border p-2 cursor-pointer" onClick={() => handleSort('id')}>Id</th>
+                  <th className="border p-2 cursor-pointer" onClick={() => handleSort('requestorName')}>Requestor</th>
+                  <th className="border p-2 cursor-pointer" onClick={() => handleSort('progressStage')}>Department</th>
+                  <th className="border p-2 cursor-pointer" onClick={() => handleSort('requestDate')}>Request Date</th>
+                  <th className="border p-2 cursor-pointer" onClick={() => handleSort('progressStage')}>Progress Stage</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </>
+              </thead>
+              <tbody>
+                {sortedRequests.map((request) => (
+                  <tr key={request.id} onClick={() => handleRequestClick(request)} className="cursor-pointer hover:bg-gray-100">
+                    <td className="border p-2">{request.id}</td>
+                    <td className="border p-2">{request.requisitor.name}</td>
+                    <td className="border p-2">{request.department.name}</td>
+                    <td className="border p-2">{request.createdAt}</td>
+                    <td className="border p-2">{request.status.charAt(0).toUpperCase() + request.status.slice(1)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            </div>
+            
+            <button onClick={() => setShowForm(true)} className='mt-4 font-medium text-white border-solid border-2 bg-blue-500 rounded-md px-4 py-2  focus:ring-2 focus:ring-blue-400 focus:font-semibold'> Create requisition +</button>
+            </>
+          )
       )}  
-    </div>
+    </section>
+    
     </div>
     </Authentication>
     </>

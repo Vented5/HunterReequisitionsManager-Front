@@ -141,17 +141,15 @@ const MakeRequest = () => {
     <NavBar/>
     <div className="flex">
       <SideBar/>
+
       <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-4">
-        <button
-          onClick={handleNewRequestClick}
-          className="w-full px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          Make Request
-        </button>
-      </div>
+      
+      <button onClick={handleNewRequestClick} className="w-full px-4 py-2 bg-blue-500 mb-4 text-white rounded">Make Request</button>
+     
       <div className="flex">
+
         <div className="w-full p-2">
+
           <h2 className="text-xl font-bold mb-4">Drafts</h2>
           <ul className="space-y-2">
             {drafts.map((draft) => (
@@ -171,6 +169,7 @@ const MakeRequest = () => {
             ))}
           </ul>
         </div>
+
         <div className={`w-full p-4 ${showForm ? "block" : "hidden"}`}>
           <div className="max-w-lg mx-auto mt-8 p-4 border rounded shadow-lg">
             <h1 className="text-2xl font-bold mb-4">
@@ -340,6 +339,7 @@ const MakeRequest = () => {
             </form>
           </div>
         </div>
+        
       </div>
     </div>
     </div>

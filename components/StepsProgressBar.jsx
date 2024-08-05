@@ -26,22 +26,22 @@ export default function StepsProgressBar() {
 		if(status === steps[i-1] ){
 			className = 'stepper-item active'
 		}
-		nodo[i] = <div class={className}>
-		    <div class="step-counter">{i+1}</div>
-		    <div class="step-name">{steps[i]}</div>
+		nodo[i] = <div key={i} className={className}>
+		    <div className="step-counter">{i+1}</div>
+		    <div className="step-name">{steps[i]}</div>
 		  </div>
 
 		if(status === 'denied') {
 			bool = true
-			nodo[1] = <div class='stepper-item denied'>
-		    <div class="step-counter">2</div>
-		    <div class="step-name">Validation denied</div>
+			nodo[1] = <div key={'denied' + toString(i)} className='stepper-item denied'>
+		    <div className="step-counter">2</div>
+		    <div className="step-name">Validation denied</div>
 		  </div> 
 		}
 	}
 	return(
 		<> 
-		 <div class="stepper-wrapper">
+		 <div className="stepper-wrapper">
 		 	{nodo}
 		</div>
 		</>

@@ -20,9 +20,9 @@ function SideBar() {
       router.push('/Users')
     }
     return (
-        <div className={`flex justify-start itmes-start ${ toggle ? "w-60" : "hidden"}`}>
+        <div className={`flex justify-start itmes-start shadow-lg h-full ${ toggle ? "w-60" : "hidden"}`}>
         <aside
-          className={`bg-white rounded-lg overflow-hideen transition-all p-4 lg:w-60 lg:p-4`}
+          className={`bg-white rounded-lg overflow-hideen transition-all px-4 lg:w-60`}
         >
           <ul>
             <li className=" hover:bg-blue-200 hover:text-blue-800-rounded-px5 ">
@@ -48,12 +48,6 @@ function SideBar() {
               <Link href="/Validation" className="flex justify-start p-2">
                     <GrValidate className="mr-2" />Request Validation
                 </Link>
-            </li>
-
-            <li className=" hover:bg-blue-200 hover:text-blue-800-rounded-px2 ">
-              <Link href="/RequestP" className="flex justify-start items-center p-2">
-                    <GrInProgress className="mr-2" />Request Progress
-            </Link>
             </li>
 
             <li className=" hover:bg-blue-200 hover:text-blue-800-rounded-px5 ">
