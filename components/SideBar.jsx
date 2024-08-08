@@ -20,7 +20,7 @@ function SideBar() {
       router.push('/Users')
     }
     return (
-        <div className={`flex justify-start itmes-start shadow-lg h-full ${ toggle ? "w-60" : "hidden"}`}>
+        <div className={`flex justify-start itmes-start shadow-lg min-h-fit ${ toggle ? "w-60" : "hidden"} `}>
         <aside
           className={`bg-white rounded-lg overflow-hideen transition-all px-4 lg:w-60`}
         >

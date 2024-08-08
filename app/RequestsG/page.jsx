@@ -19,7 +19,6 @@ const AdminRequests = () => {
 
   const [showForm, setShowForm] = useState(false);//Make request show control
   
-
   useEffect(() => {
     // -------------- FETCH ------------------
     const fetchRequests = async () => {
@@ -75,10 +74,10 @@ const AdminRequests = () => {
     <Authentication>
     <NavBar/>
 
-    <div className='flex h-[90%]'>
+    <div className='flex h-[90%] text-xs md:text-base'>
       <SideBar/>
       
-      <section className="container mx-2 px-4 py-2 h-full shadow-lg">
+      <section className="container overflow-y-auto mx-2 px-4 py-2 h-fit shadow-lg lg:mx-auto ">
 
         {selectedRequest ? (    /// Vista detallada
         
@@ -95,7 +94,7 @@ const AdminRequests = () => {
 
           ) : (       /// Main
             <>
-            <h1 className="text-2xl font-bold mb-4">All Requisitions</h1>
+            <h1 className="md:text-xl font-bold mb-4">All Requisitions</h1>
             <div className="mb-4">
               <input
                 type="text"
@@ -121,7 +120,7 @@ const AdminRequests = () => {
                   <tr key={request.id} onClick={() => handleRequestClick(request)} className="cursor-pointer hover:bg-gray-100">
                     <td className="border p-2">{request.id}</td>
                     <td className="border p-2">{request.requisitor.name}</td>
-                    <td className="border p-2">{request.department.name}</td>
+                    <td className="border p-2">{request.department}</td>
                     <td className="border p-2">{request.createdAt}</td>
                     <td className="border p-2">{request.status.charAt(0).toUpperCase() + request.status.slice(1)}</td>
                   </tr>

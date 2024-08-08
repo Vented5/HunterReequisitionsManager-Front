@@ -2,15 +2,14 @@ import { ReqContext } from "../app/RequestsG/page"
 import { Context } from "../context/Context";
 import { useState, useContext, useEffect } from "react"
 import StepsProgressBar from './StepsProgressBar'
+import ItemsList from "./ItemsList";
 
 
 export default function DetailedRequest() {
     const {selectedRequest, setSelectedRequest, requests, setRequests} = useContext(ReqContext)
     const { user } = useContext(Context)
     const [denyReason, setDenyReason] = useState('');
-
-    const [itemsLists, setItemsLists] = useState([]);
-
+    
     const handleBackButtonClick = () => {
         setSelectedRequest(null);
       };
@@ -44,36 +43,15 @@ export default function DetailedRequest() {
         setSelectedRequest(null);
     }
 
-    async function fetchItemsLists(reqId) {
-      const response = await fetch(`http://localhost:3010/itemsLists/${reqId}`, {
-        method: 'GET'
-      })
-      const data = await response.json()
-      console.log("Responese: ", response)
-      console.log("Data: ", data) //resultado: Array [ {...} ] 
-      setItemsLists(data)
-      console.log("ItemsLists: ", itemsLists)//resultado: Array []
-    }
-
-    useEffect(() => {
-      fetchItemsLists(selectedRequest.id)
-    }, [])
-    
-    useEffect(() => {
-      // Efecto para manejar cambios en itemsLists
-      console.log("ItemsLists actualizado: ", itemsLists);
-    }, [itemsLists]); // Se ejecuta cada vez que itemsLists cambia*/
-  
-
     return (
         <div>
         <h1 className="text-2xl font-bold mb-4">Requisition no. {selectedRequest.id} </h1>
     
-          <section className="h-full mx-auto my-4 p-6 border rounded shadow-lg max-w-screen-lg space-y-4">
+          <section className="h-full mx-auto my-4 p-6 border rounded shadow-lg min-w-fit  space-y-4">
             <div className="flex space-x-32">
               <div className="w-full">
                 <span className="flex justify-between"><strong>Requestor:</strong><p>{selectedRequest.requisitor.name}</p></span>
-                <span className="flex justify-between"><strong>Department:</strong><p> {selectedRequest.department.name}</p></span>
+                <span className="flex justify-between"><strong>Department:</strong><p> {selectedRequest.department}</p></span>
               </div>
 
               <div className="w-full">
@@ -104,39 +82,11 @@ export default function DetailedRequest() {
             
             <div><strong>Justification:</strong><p> {selectedRequest.justification}</p></div>
             
-            <div>
-              <table className="w-full text-left border">
-                <thead className="bg-gray-200 border-b text-sm">
-                  <tr>
-                    <th className="pl-4">Id</th>
-                    <th className="pl-4">Item</th>
-                    <th className="pl-4">Category</th>
-                    <th className="pl-4">Price/u</th>
-                    <th className="pl-4">Units</th>
-                    <th className="pl-4">Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {itemsLists.map(itemsList => 
-                    <tr key={itemsList.id}>
-                      <td className="pl-4">{itemsList.item.id}</td>
-                      <td className="pl-4">{itemsList.item.name}</td>
-                      <td className="pl-4">{itemsList.item.category.name}</td>
-                      <td className="pl-4">{itemsList.item.price}</td>
-                      <td className="pl-4">{itemsList.quantity}</td>
-                      <td className="pl-4">{itemsList.price}</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-              
-            </div>
+            <ItemsList/>
 
-            <div className="flex space-x-32">
-              <div className="w-full">
-                <span className="flex justify-between"><strong>Provider:</strong> <p>{selectedRequest.provider.name}</p></span>
-                <span className="flex justify-between"><strong>Preferred Vendors:</strong><p> {selectedRequest.preferredVendors}</p></span>
-              </div>
+            <div className="flex justify-between">
+                <span className="flex space-x-4"><strong>Provider:</strong> <p>{selectedRequest.provider.name}</p></span>
+                <span className="flex space-x-4 pr-36"><strong>Total:</strong><p> {selectedRequest.total}</p></span>
               
             </div>
             
