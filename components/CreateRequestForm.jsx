@@ -23,7 +23,7 @@ export default function CreateRequestFrom() {
       
       const [newItem, setNewItem] = useState({
         name: "Gansitos",
-        price: 20,
+        price: 20.00,
         quantity: 200,
         category: "Especial"
       })
@@ -92,12 +92,12 @@ export default function CreateRequestFrom() {
     }
 
     function changeItem(e) {
-      const { name, value } = e.target
-      setNewItem({
-        ...newItem,
-        [name]: value
-      })
-    }    
+        const { name, value } = e.target;
+        setNewItem(prevState => ({
+          ...prevState,
+          [name]: name === 'price' ? parseFloat(value) || '' : value
+        }));
+      }
 
     const handleBackButtonClick = () => {
         setShowForm(false);
@@ -223,7 +223,7 @@ export default function CreateRequestFrom() {
              
               <div className="space-x-2">
                 <label htmlFor="text">Price:</label>
-                <input id="price" name="price" type="text" value={newItem.price} onChange={changeItem} className="w-auto p-1 border border-gray-300 rounded"></input>
+                <input type="number" id="price" name="price"  value={newItem.price} onChange={changeItem} className="w-auto p-1 border border-gray-300 rounded"></input>
               </div>
 
               <button type="button" onClick={addNewItem} className="bg-blue-500 w-full p-1 text-white rounded">Add</button>

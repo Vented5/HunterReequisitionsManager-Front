@@ -46,7 +46,7 @@ const AdminRequests = () => {
   const filteredRequests = requests.filter((request) => 
     request.id == searchTerm ||
     request.requisitor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    request.department.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    request.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
     request.status.includes(searchTerm.toLowerCase())//||
     //request.createdAt.includes(searchTerm) //||
     //request.productDescription.toLowerCase().includes(searchTerm.toLowerCase())

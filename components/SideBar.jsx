@@ -62,12 +62,7 @@ function SideBar() {
               </Link>
             </li>
 
-            <li className="hover:bg-blue-200 hover:text-blue-800-rounded-px5 ">
-              <Link href="/Admin" className="flex justify-start items-center p-2">
-                <BsDatabaseFillLock className="mr-2" />DB
-              </Link>
-            </li>
-
+            
             <li className="hover:bg-blue-200 hover:text-blue-800-rounded-px5 ">
               <Link href="/Category" className="flex justify-start items-center p-2">
                 <BsDatabaseFillLock className="mr-2" />Category
@@ -86,11 +81,7 @@ function SideBar() {
               </Link>
             </li>
 
-            <li className="hover:bg-blue-200 hover:text-blue-800-rounded-px5 ">
-              <Link href="/Advisor" className="flex justify-start items-center p-2">
-                <MdOutlineUpdate className="mr-2" />Advice
-              </Link>
-            </li>
+            
           </ul>
         </aside>
       </div>

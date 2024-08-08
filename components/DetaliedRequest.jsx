@@ -5,6 +5,14 @@ import StepsProgressBar from './StepsProgressBar'
 import ItemsList from "./ItemsList";
 
 
+function formatDate(dateString) {
+      const date = new Date(dateString);
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Meses en JavaScript son 0-11
+      const day = String(date.getDate()).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${month}-${day}-${year}`;
+    }
+
 export default function DetailedRequest() {
     const {selectedRequest, setSelectedRequest, requests, setRequests} = useContext(ReqContext)
     const { user } = useContext(Context)
@@ -55,8 +63,8 @@ export default function DetailedRequest() {
               </div>
 
               <div className="w-full">
-                <span className="flex justify-between"><strong>Dues On:</strong><p> {selectedRequest.dueDate}</p></span>
-                <span className="flex justify-between"><strong>Requested On:</strong><p> {selectedRequest.createdAt}</p></span>
+                <span className="flex justify-between"><strong>Dues On:</strong><p> {formatDate(selectedRequest.dueDate)}</p></span>
+                <span className="flex justify-between"><strong>Requested On:</strong><p> {formatDate(selectedRequest.createdAt)}</p></span>
                 
               </div>
             </div>
