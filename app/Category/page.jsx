@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiOutlineUpload, AiOutlineEdit, AiOutlineCheck, AiOutlineDelete } from 'react-icons/ai';
 
 import NavBar from '../../components/NavBar';
@@ -21,6 +21,13 @@ const CategoryManagement = () => {
       [name]: value,
     });
   };
+
+  async function fetchCategories() {
+    const response = await fetch("http://localhost:3010/categories", {
+      method: 'GET'
+    })
+    console.log("categories: ", await response.json())
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,11 +65,15 @@ const CategoryManagement = () => {
     setCategories(updatedCategories);
   };
 
+  useEffect(() => {
+    fetchCategories()
+  }, []) 
+
   return (
    <>
    <Authentication>
    <NavBar/>
-   <div className='flex'>
+   <div className='flex h-[93%]'>
     <SideBar/>
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Category Management</h1>

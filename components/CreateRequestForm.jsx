@@ -4,14 +4,14 @@ import { ReqContext } from "../app/RequestsG/page"
 import { stringify } from "postcss";
 
 export default function CreateRequestFrom() {
-    const { showForm, setShowForm, requests, setRequests } = useContext(ReqContext)
-    const { user } = useContext(Context)
+    const { requests, setRequests } = useContext(ReqContext)
+    const { user, showForm, setShowForm, } = useContext(Context)
     const [formData, setFormData] = useState({
         requestor: user.id,
-        department: "RH",  
+        department: "",  
         dueDate: "2024-08-12",
-        description: "500 pizzas",
-        justification: "Tengo hambre we",
+        description: "",
+        justification: "",
         category: "",
         provider: "",
         itemLists: [], 
@@ -22,7 +22,7 @@ export default function CreateRequestFrom() {
       const [itemDropDown, setItemDropDown] = useState(false)
       
       const [newItem, setNewItem] = useState({
-        name: "Gansitos",
+        name: "",
         price: 20.00,
         quantity: 200,
         category: "Especial"
@@ -30,14 +30,14 @@ export default function CreateRequestFrom() {
 
 
       useEffect(() => {
-          setCategories(["Category 1", "Category 2", "Category 3"]);
+          setCategories(["Electroinics", "Office Material", "Special"]);
         
     
         const fetchProviders = async () => {
           // Replace with actual API call
           const providersFromApi = await new Promise((resolve) =>
             setTimeout(
-              () => resolve(["Provider 1", "Provider 2", "Provider 3"]),
+              () => resolve(["Vallarta Electronics", "Picaso Electronics", "Office depot"]),
               1000
             )
           );
@@ -86,8 +86,10 @@ export default function CreateRequestFrom() {
     function addNewItem () {
       console.log("formData: ", formData)
       const array = formData.itemLists
-      array.push(newItem)
-      setFormData({ ...formData, itemLists: array})
+      if(newItem.name) {
+        array.push(newItem)
+        setFormData({ ...formData, itemLists: array})
+      } 
       console.log("Updated formData: ", formData)
     }
 
@@ -120,6 +122,7 @@ export default function CreateRequestFrom() {
                     id="department"
                     name="department"
                     value={formData.department}
+                    placeholder="Ej. Human Resources"
                     onChange={handleChange}
                     className="w-full p-2 border border-gray-300 rounded"
                     required
@@ -146,14 +149,14 @@ export default function CreateRequestFrom() {
               <label className="block mb-2 font-semibold" htmlFor="description">
                   Product Description *
               </label>
-              <textarea  id="description" name="description" value={formData.description} onChange={handleChange} required className="w-full p-2 border border-gray-300 rounded" ></textarea>
+              <textarea  id="description" name="description" value={formData.description} placeholder="Insert description...." onChange={handleChange} required className="w-full p-2 border border-gray-300 rounded" ></textarea>
             </div>
 
             <div>
               <label className="block mb-2 font-semibold" htmlFor="justification">
                   Justification *
               </label>
-              <textarea id="justification" name="justification"value={formData.justification} onChange={handleChange}  required className="mb-2 w-full p-2 border border-gray-300 rounded"></textarea>
+              <textarea id="justification" name="justification"value={formData.justification} placeholder="Insert justification..." onChange={handleChange}  required className="mb-2 w-full p-2 border border-gray-300 rounded"></textarea>
             </div>
 
             <label htmlFor="" className="font-semibold">Items</label>
@@ -189,10 +192,10 @@ export default function CreateRequestFrom() {
             <button type="button" onClick={() => (setItemDropDown(!itemDropDown))} className="border-2 border-blue-500 px-2 py-1 rounded focus:font-semibold focus:ring shadow-md">Add item + </button>
             
             { itemDropDown ? (
-              <section className="flex flex-wrap items-center border border-red-400">
+              <section className="flex flex-wrap items-center border ">
               <div className="flex space-x-2 mr-2">
                 <label htmlFor="name">Product:</label>
-                <input type="text" id="name" name="name" value={newItem.name} onChange={changeItem} className="w-auto p-1 border border-gray-300 rounded"/>
+                <input type="text" id="name" name="name" value={newItem.name} onChange={changeItem} placeholder="Product name" required className="w-auto p-1 border border-gray-300 rounded "/>
 
                 <div className="flex space-x-1 border border-gray-300 rounded items-center">
                   <button type="button" onClick={() => (setNewItem({...newItem, quantity: newItem.quantity -1}))} className="w-full h-full hover:bg-gray-300 px-2 py-1">-</button>
@@ -226,7 +229,7 @@ export default function CreateRequestFrom() {
                 <input type="number" id="price" name="price"  value={newItem.price} onChange={changeItem} className="w-auto p-1 border border-gray-300 rounded"></input>
               </div>
 
-              <button type="button" onClick={addNewItem} className="bg-blue-500 w-full p-1 text-white rounded">Add</button>
+              <button type="button" onClick={addNewItem} className="bg-tertiary w-full p-1 text-white rounded">Add</button>
 
             </section>
             ) : ''}
@@ -265,7 +268,7 @@ export default function CreateRequestFrom() {
             <button
                 type="submit"
                 onClick={handleSubmit}
-                className="px-4 py-2 bg-blue-500 text-white rounded w-full"
+                className="px-4 py-2 text-white bg-emerald-500 rounded w-full"
             >
                 Submit
             </button>

@@ -5,14 +5,6 @@ import StepsProgressBar from './StepsProgressBar'
 import ItemsList from "./ItemsList";
 
 
-function formatDate(dateString) {
-      const date = new Date(dateString);
-      const month = String(date.getMonth() + 1).padStart(2, '0'); // Meses en JavaScript son 0-11
-      const day = String(date.getDate()).padStart(2, '0');
-      const year = date.getFullYear();
-      return `${month}-${day}-${year}`;
-    }
-
 export default function DetailedRequest() {
     const {selectedRequest, setSelectedRequest, requests, setRequests} = useContext(ReqContext)
     const { user } = useContext(Context)
@@ -37,19 +29,35 @@ export default function DetailedRequest() {
       };
 
       async function validateRequest () {
-        console.log(selectedRequest)
+        console.log("Validated by: ", user.id)
+        //console.log(selectedRequest)
         const updatedRequest = selectedRequest
         updatedRequest.status = 'validated'
+        updatedRequest.validatorId = user.id
         await fetch(`http://localhost:3010/requisitions/${selectedRequest.id}`, {
             method: 'PATCH',
             headers: {'Content-Type': 'Application/json'},
             body: JSON.stringify(updatedRequest)
         })
         setRequests(requests.map(request => 
-            request.id === selectedRequest.id? { ...request, status:'validated'} : request
+            request.id === selectedRequest.id? { ...request, status:'validated', validatorId: user.id, validator: {name: user.name}} : request
         ))
         setSelectedRequest(null);
     }
+
+    async function completeRequest () {
+      const updatedRequest = selectedRequest
+      updatedRequest.status = 'completed'
+      await fetch(`http://localhost:3010/requisitions/${selectedRequest.id}`, {
+          method: 'PATCH',
+          headers: {'Content-Type': 'Application/json'},
+          body: JSON.stringify(updatedRequest)
+      })
+      setRequests(requests.map(request => 
+          request.id === selectedRequest.id? { ...request, status:'completed'} : request
+      ))
+      setSelectedRequest(null);
+  }
 
     return (
         <div>
@@ -58,7 +66,7 @@ export default function DetailedRequest() {
           <section className="h-full mx-auto my-4 p-6 border rounded shadow-lg min-w-fit  space-y-4">
             <div className="flex space-x-32">
               <div className="w-full">
-                <span className="flex justify-between"><strong>Requestor:</strong><p>{selectedRequest.requisitor.name}</p></span>
+                <span className="flex justify-between"><strong>Requestor:</strong><p>{selectedRequest.requisitor.name.charAt(0).toUpperCase() + selectedRequest.requisitor.name.slice(1)}</p></span>
                 <span className="flex justify-between"><strong>Department:</strong><p> {selectedRequest.department}</p></span>
               </div>
 
@@ -77,13 +85,18 @@ export default function DetailedRequest() {
             <hr/>
 
             {selectedRequest.status.toLowerCase() === 'denied' && (
-               <><p><strong>Deny Reason: </strong>{selectedRequest.denyReason}Ajajaja valio verdura</p>
-               <hr/></>
+               <div className="bg-rose-400 rounded p-2 flex space-x-3"><strong>Request denied</strong><p>{selectedRequest.denyReason}</p>
+               <hr/></div>
             ) }
 
             {selectedRequest.status.toLowerCase() === 'validated' && (
-               <><p><strong>Validated by:</strong> {selectedRequest.approver}</p>
-               <hr/></>
+               <div className="bg-emerald-400 rounded p-2 flex space-x-3"><strong>Validated by:</strong><p> {selectedRequest.validator? selectedRequest.validator.name : ""}    ( {selectedRequest.validator? selectedRequest.validator.role : ""} )</p>
+               </div>
+            ) }
+
+            {selectedRequest.status.toLowerCase() === 'completed' && (
+               <div className="bg-emerald-400 rounded p-2 flex space-x-3"><strong>Validated by:</strong><p> {selectedRequest.validator? selectedRequest.validator.name : ""}    ( {selectedRequest.validator? selectedRequest.validator.role : ""} )</p>
+               </div>
             ) }
 
             <div><strong>Product Description:</strong><p> {selectedRequest.description}</p></div>
@@ -105,19 +118,21 @@ export default function DetailedRequest() {
                 Back
               </button>
          
-              {selectedRequest.status.toLowerCase() !== 'denied' && user.role === 'Admin' && (
+              {selectedRequest.status.toLowerCase() === 'validated' && user.role === 'Admin' && (
                   <>
-                  <input type="text" placeholder="Deny Reason" value={denyReason} onChange={(e) => setDenyReason(e.target.value)} className="p-2 border border-gray-300 rounded mb-2 hidden"/>
-                  <button type="button" onClick={handleDenyRequest} className="w-full px-4 py-2 bg-red-500 text-white rounded">
-                    Deny Request
+                  <button type="button" onClick={completeRequest} className="w-full px-4 py-2 bg-emerald-500 text-white rounded">
+                      Complete Request
                   </button>
                   </>
               )}
 
               {selectedRequest.status.toLowerCase() === 'requested'  && user.role === 'Admin' && (
-                  <button type="button" onClick={validateRequest} className="w-full px-4 py-2 bg-green-500 text-white rounded">
-                      Validate Request
+                  <><button type="button" onClick={handleDenyRequest} className="w-full px-4 py-2 bg-red-500 text-white rounded">
+                    Deny Request
                   </button>
+                  <button type="button" onClick={validateRequest} className="w-full px-4 py-2 bg-emerald-500 text-white rounded">
+                      Validate Request
+                  </button></>
               )}
             
           </div>
@@ -125,4 +140,22 @@ export default function DetailedRequest() {
         
         </div>
     )
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+
+  // Array de nombres de los meses en español
+  const months = [
+    'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+  ];
+
+  // Obtener el nombre del mes
+  const month = months[date.getMonth()];
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  // Formatear la fecha en el formato deseado
+  return `${day} ${month} ${year}`;
 }

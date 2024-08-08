@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
  
   return (
     <html lang="en">
-      <body className="h-screen">
+      <body className="h-screen bg-background">
         <ContextProvider>
             {children}          
         </ContextProvider>

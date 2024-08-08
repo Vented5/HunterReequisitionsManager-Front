@@ -40,7 +40,7 @@ function NavBar() {
     
 
     return (
-        <div className="bg-white flex justify-between items-center px-4 h-[7%] mb-4 relative shadow-md text-xs md:text-base">
+        <div className="bg-primary text-slate-200 flex justify-between items-center px-4 h-[7%] relative shadow-md text-xs md:text-base">
             <div className="flex space-x-4">
               <button onClick={() => setToggle(!toggle)}>
                   <FaBars className="cursor-pointer" />
@@ -53,14 +53,15 @@ function NavBar() {
                 <FaUserAstronaut />
               </div>
               {dropdown&& (
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded shadow-lg z-10">
+                <div className="absolute right-0 mt-8 w-32 bg-background text-gray-800 border border-gray-300 rounded shadow-lg z-10">
                   <ul className="py-1">
-                    <li className="px-4 py-2 cursor-pointer hover:bg-gray-100">
+                    {/*<li className="px-4 py-2 cursor-pointer hover:bg-gray-100">
                       <Link href="/Account" className="flex items-center">
                         Account
                       </Link>
-                    </li>
-                    <li onClick={logout} className="px-4 py-2 cursor-pointer hover:bg-gray-100">
+                    </li> */}
+                    <li onClick={logout} className="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-gray-100">
+                      <p>Logout</p>
                       <IoIosLogOut/>
                     </li>
                   </ul>
